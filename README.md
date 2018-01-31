@@ -10,7 +10,7 @@ Run the following steps to download, install and demo the library:
   python demo.py    # -viz option to visualize output
   ```
 
-This wrapper code was developed as part of our [CVPR 2017 paper on Unsupervised Learning using unlabeled videos](http://cs.berkeley.edu/~pathak/unsupervised_video/). Github repository for our CVPR 17 paper is [here](https://github.com/pathak22/unsupervised-video).
-
 ## Process video
 Process a video and save the extracted of images and frames into two folders. Command: ```python proc_video.py --vid_src [video_src] --of_dir [of_folder_path] --img_dir [frames_folder_path] ```
+
+*The algorithm credits to [CVPR 2017 paper on Unsupervised Learning using unlabeled videos](http://cs.berkeley.edu/~pathak/unsupervised_video/).*

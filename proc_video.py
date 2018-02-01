@@ -21,6 +21,9 @@ parser.add_argument(
 parser.add_argument('--vid_src', dest='vid_src')
 parser.add_argument('--of_dir', dest='of_dir')
 parser.add_argument('--img_dir', dest='img_dir')
+parser.add_argument('--crop', dest='crop', default=None, 
+                        help='Input left,up,right,bottom')
+
 args = parser.parse_args()
 
 ###################### Flow Options
@@ -82,7 +85,20 @@ def mk_folder(vid_src, dst_dir):
         os.mkdir(dst_folder)
     return dst_folder
 
-def extract_of(vid_src, img_dir, of_dir):
+
+def crop_img(img, size):
+    left, up, right, bottom = map(int, size.split(','))
+    h, w, _ = img.shape
+    l = max(0, left)
+    u = max(0, up)
+    r = min(w - 1, right)
+    b = min(h - 1, bottom)
+
+    assert (l < r and b > u)
+    return img[u:b, l:r]
+    
+
+def extract_of(vid_src, img_dir, of_dir, crop=None):
     img_dir = mk_folder(vid_src, img_dir)
     print('img dir: %s' % img_dir)
     of_dir = mk_folder(vid_src, of_dir)
@@ -102,6 +118,12 @@ def extract_of(vid_src, img_dir, of_dir):
         if cnt % 10 == 0:
             print('----- fid: %d' % cnt)
 
+        if crop:
+            image = crop_img(image, crop)
+        
+        # print(image.shape)
+        # break 
+
         resized_image = cv2.resize(image, DST_SIZE) 
 
         if cnt > 0:
@@ -113,7 +135,7 @@ def extract_of(vid_src, img_dir, of_dir):
         cnt += 1
 
 
-
 extract_of( args.vid_src, 
             args.img_dir,
-            args.of_dir)
+            args.of_dir,
+            args.crop)
